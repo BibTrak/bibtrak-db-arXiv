@@ -22,10 +22,14 @@ def concatAttribs(xmlTree):
 	try:
 		startInd = xmlTree.tag.index("}")
 		tag = xmlTree.tag[startInd+1:];	
-		if xmlTree.text != "":
+		if xmlTree.text is not None and len(xmlTree.text) > 0:
 			xmlDict[tag] = xmlTree.text
-		for child in xmlTree:
-			xmlDict.update(concatAttribs(child))
+		children = xmlTree.getchildren();
+		if children is not None and len(children) > 0:
+			childDict = {}
+			for child in xmlTree:
+				childDict.update(concatAttribs(child))
+			xmlDict[tag] = childDict
 			
 		return xmlDict
 	except ValueError as e:
