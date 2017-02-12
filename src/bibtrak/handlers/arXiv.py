@@ -13,7 +13,7 @@ class arXiv(handler.Handler):
 			#Turn string into xml.
 			xmlData = xml.etree.ElementTree.fromstring(paperData);
 			#Turn xml into dict
-			dictData = concatAttribs(xmlData);
+			dictData = concatAttribs(xmlData[7]);
 			
 			return dictData
 		except URLError as e:
@@ -26,7 +26,8 @@ class arXiv(handler.Handler):
 		xmlDict = {}
 		try:
 			startInd = xmlTree.tag.index("}")
-			tag = xmlTree.tag[startInd+1:];	
+			tag = xmlTree.tag[startInd+1:];
+			
 			if xmlTree.text is not None and len(xmlTree.text) > 0:
 				xmlDict[tag] = xmlTree.text
 			children = xmlTree.getchildren();
@@ -34,7 +35,10 @@ class arXiv(handler.Handler):
 				childDict = {}
 				for child in xmlTree:
 					childDict.update(concatAttribs(child))
-				xmlDict[tag] = childDict
+				if tag == "entry":
+					xmlDict = childDict;
+				else:
+					xmlDict[tag] = childDict
 				
 			return xmlDict
 		except ValueError as e:
