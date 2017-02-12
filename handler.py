@@ -35,8 +35,6 @@ def fetch(id):
 def concatAttribs(xmlTree):
 	xmlDict = {}
 	try:
-		for child in xmlTree:
-			xmlDict.update(concatAttribs(child))
 		
 		#print(xmlTree.tag)
 		#print(xmlTree.keys())
@@ -47,6 +45,11 @@ def concatAttribs(xmlTree):
 		tag = xmlTree.tag[startInd+1:];	
 		if xmlTree.text != "":
 			xmlDict[tag] = xmlTree.text
+		"""if xmlTree.getchildren() != {}:
+			childDict = {};"""
+		for child in xmlTree:
+			xmlDict.update(concatAttribs(child))
+			#xmlDict[tag] = childDict;
 			
 		return xmlDict
 	except ValueError as e:

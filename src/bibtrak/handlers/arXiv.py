@@ -4,7 +4,7 @@ import xml.etree.ElementTree
 from bibtrak import handler
 
 class arXiv(handler.Handler):
-	def fetch(id):
+	def fetch(self,id):
 		url = "http://export.arxiv.org/api/query?id_list="+id+"&&start=0&&max_results=1";
 		request = Request(url);
 		try:
