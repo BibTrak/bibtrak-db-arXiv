@@ -12,21 +12,6 @@ def fetch(id):
 		xmlData = xml.etree.ElementTree.fromstring(paperData);
 		#Turn xml into dict
 		dictData = concatAttribs(xmlData);
-		#results = xmlData[7]
-		#print(results.tag)
-		#print(results.attrib)
-		"""for childA in xmlData:
-			print(xmlData.tag +"->"+childA.tag)
-			print(childA.attrib)
-			dictData.update(childA.attrib)
-			for childB in childA:
-				print(xmlData.tag +"->"+childA.tag+"->"+childB.tag)
-				print(childB.attrib)
-				dictData.update(childB.attrib)
-				for childC in childB:
-					print(xmlData.tag +"->"+childA.tag+"->"+childB.tag+"->"+childC.tag)
-					print(childC.attrib)
-					dictData.update(childC.attrib)"""
 		
 		return dictData
 	except URLError as e:
@@ -35,21 +20,12 @@ def fetch(id):
 def concatAttribs(xmlTree):
 	xmlDict = {}
 	try:
-		
-		#print(xmlTree.tag)
-		#print(xmlTree.keys())
-		#print(xmlTree.text);
-		#print(xmlTree.tail);
-		#print(xmlTree.attrib)
 		startInd = xmlTree.tag.index("}")
 		tag = xmlTree.tag[startInd+1:];	
 		if xmlTree.text != "":
 			xmlDict[tag] = xmlTree.text
-		"""if xmlTree.getchildren() != {}:
-			childDict = {};"""
 		for child in xmlTree:
 			xmlDict.update(concatAttribs(child))
-			#xmlDict[tag] = childDict;
 			
 		return xmlDict
 	except ValueError as e:
